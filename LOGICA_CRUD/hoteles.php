@@ -4,71 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>.: Formulario :.</title>
+    <title>.: Hoteles :.</title>
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="js/bootstrap.min.js"></script>
     <script src="jquery/jquery-3.7.1.min.js"></script>
     <script src="funciones.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <style>
     body{
         background-image: url(img/fondo5.jpg);
     }
 </style>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <img src="https://img.freepik.com/vector-premium/plantilla-logo-dorado-hotel_23-2147492939.jpg" alt="" id="img2" width="30" height="24">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php">Reservacion</a>
+                        <a class="nav-link" href="index.php">Reservacion</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="clientes.php">Clientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="hoteles.php">Hoteles</a>
+                        <a class="nav-link active" aria-current="page" href="hoteles.php">Hoteles</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <style>
-    h1{
-    margin-top: 10px;
-    width: 500px;
-    border-radius: 5px;
-    margin-left: 36%;
-    background-color: white;
-    }
-</style>
+
     <h1>Hoteles</h1>
-    <button class='btn btn-success open-modal' id="a2" data-bs-toggle='modal' data-bs-target='#registroModal' onclick="deleteModal()" >Agregar Nuevo</button></td>
-    <!--Inicio Modal-->
-    <style>
-        .modal-content {
-    background-image: url(img/fondo5.jpg);
-    border: none;
-    border-radius: 10px;
-    }
-    </style>
+    <button class='btn btn-success open-modal' id="a2" data-bs-toggle='modal' data-bs-target='#registroModal'>Agregar Hotel</button></td>
+
+    <!-- Modal para agregar-->
     <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Reservacion</h5>
+                    <h5 class="modal-title">Nueva Residencia</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="myForm">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col">
+                                <input type="hidden" name="action" id="action" value="add">
                                 <input type="text" name="id" id="id" class="form-control" placeholder="Id" required>
                             </div>
                         </div><br>
@@ -96,19 +82,20 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <div class="p-2">
-                            <button type="submit" class="btn btn-success boton" data-bs-dismiss="modal">Reservar</button>
+                            <button type="submit" class="btn btn-success boton">Reservar</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
     <!--Fin Modal-->
 
     <?php
     include 'db/db.php';
 
-    $sql = "SELECT * FROM Reservaciones";
+    $sql = "SELECT * FROM Hoteles";
     $result = mysqli_query($db, $sql);
 
     ?>
@@ -120,12 +107,12 @@
                 <th>Ubicacion</th>
                 <th>Telefono</th>
                 <th>Valoracion</th>
+                <th colspan="2">Accion</th>
             </tr>
         </thead>
         <tbody>
             <?php
             while ($row = mysqli_fetch_assoc($result)) {
-                #<td><a href='views/eliminar.php'><img src='icons/trash-solid.svg'></a></td>
                 echo "
                     <tr>
                         <td>$row[id]</td>
@@ -133,69 +120,151 @@
                         <td>$row[ubicacion]</td>
                         <td>$row[telefono]</td>
                         <td>$row[valoracion]</td>
-                        <td><a href='views/editar.php?id=$row[id]' class='btn btn-warning'><img src='icons/pencil-solid.svg'></a></td>
-                        <td><button class='btn btn-danger open-modal' data-id=$row[id] data-bs-toggle='modal' data-bs-target='#exampleModal'><img src='icons/trash-solid.svg'></button></td>
+                        <td><button class='btn btn-warning edit-record' data-id='$row[id]' data-nombre='$row[name]' data-ubicacion='$row[ubicacion]' data-telefono='$row[telefono]' data-valoracion='$row[valoracion]' data-bs-toggle='modal' data-bs-target='#editarModal'><img src='icons/pencil-solid.svg'></button></td>
+                        <td><button class='btn btn-danger delete-record' data-id='$row[id]' data-bs-toggle='modal' data-bs-target='#eliminarModal'><img src='icons/trash-solid.svg'></button></td>
                     </tr>
                     ";
             }
             ?>
         </tbody>
     </table>
-    <div id="response"><
-    <!--Consulta ajax-->
+    <div id="response"></div>
+    <!--Modal para editar-->
+    <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar datos de Hotel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editForm">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <input type="hidden" name="action" id="editAction" value="edit">
+                                <input type="hidden" name="edit_id" id="edit_id">
+                                <input type="text" name="edit_name" id="edit_name" class="form-control" placeholder="Nombre" required>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="edit_ubicacion" id="edit_ubicacion" class="form-control" placeholder="Ubicacion" required>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="edit_telefono" id="edit_telefono" class="form-control" placeholder="Telefono" required>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="edit_valoracion" id="edit_valoracion" class="form-control" placeholder="Valoracion" required>
+                            </div>
+                        </div><br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <div class="p-2">
+                            <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--Fin Modal-->
+
+    <!--Modal para eliminar-->
+    <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Eliminar Reservación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="deleteForm">
+                    <div class="modal-body">
+                        <p>¿Está seguro de que desea eliminar esta reservación?</p>
+                        <input type="hidden" name="action" id="deleteAction" value="delete">
+                        <input type="hidden" name="delete_id" id="delete_id">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <div class="p-2">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--Fin Modal-->
+
     <script>
         $(document).ready(function() {
-            $('#myForm').on('submit', function(event) {
-                event.preventDefault(); // Evitar que el formulario se envíe de la manera tradicional
-
+            $('#myForm').submit(function(e) {
+                e.preventDefault();
                 $.ajax({
-                    url: 'respuesta_ajax.php',
                     type: 'POST',
+                    url: 'r_hotel.php',
                     data: $(this).serialize(),
-                    dataType: 'json',
                     success: function(response) {
-                        if (response.status === 'success') {
-                            $('#dataTable tbody').append(
-                                '<tr><td>' + response.data.id + '</td><td>' + response.data.name + '</td><td>' + response.data.lastname + '</td><td>' + response.data.job + '</td><td>' + response.data.enable + '</td>'+'<td><a href="views/editar.php?id=$row[id]" class="btn btn-warning"><img src="icons/pencil-solid.svg"></a></td>'+'<td><button class="btn btn-danger open-modal" data-id=$row[id] data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="icons/trash-solid.svg"></button></td></tr>');
-                            $('#response').html('<p>' + response.message + '</p>');
-                        } else {
-                            $('#response').html('<p>' + response.message + '</p>');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error:', error);
-                        $('#response').html('Ocurrió un error al enviar el formulario.');
+                        $('#registroModal').modal('hide');
+                        $('#response').html(response);
+                        location.reload();
+                    }
+                });
+            });
+
+            $('.edit-record').click(function() {
+                var id = $(this).data('id');
+                var name = $(this).data('nombre');
+                var ubicacion = $(this).data('ubicacion');
+                var telefono = $(this).data('telefono');
+                var valoracion = $(this).data('valoracion');
+
+                $('#edit_id').val(id);
+                $('#edit_name').val(name);
+                $('#edit_ubicacion').val(ubicacion);
+                $('#edit_telefono').val(telefono);
+                $('#edit_valoracion').val(valoracion);
+            });
+
+            $('#editForm').submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: 'r_hotel.php',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#editarModal').modal('hide');
+                        $('#response').html(response);
+                        location.reload();
+                    }
+                });
+            });
+
+            $('.delete-record').click(function() {
+                var id = $(this).data('id');
+                $('#delete_id').val(id);
+            });
+
+            $('#deleteForm').submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: 'r_hotel.php',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#eliminarModal').modal('hide');
+                        $('#response').html(response);
+                        location.reload();
                     }
                 });
             });
         });
     </script>
-    <!--Fin ajax-->
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- <form method="post"> -->
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">¿Desear eliminar?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form enctype="multipart/form-data" method="post">
-                        <input type="text" class="form-control" name="deleteId" id="deleteId" disabled>
-                        <button type="submit" class="btn btn-primary" name="save" onclick="deleteRecord()">Save changes</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <!-- <button type="submit" class="btn btn-primary" name="save">Save changes</button> -->
-                </div>
-                <!-- </form> -->
-            </div>
-        </div>
-    </div>
-    <!-- Modal -->
 </body>
 
 </html>

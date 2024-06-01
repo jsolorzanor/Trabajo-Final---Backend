@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>.: Formulario :.</title>
+    <title>.: Reservaciones :.</title>
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="js/bootstrap.min.js"></script>
@@ -21,10 +21,10 @@
     margin: 0;
 }
 </style>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <img src="https://img.freepik.com/vector-premium/plantilla-logo-dorado-hotel_23-2147492939.jpg" alt="" id="img2" width="30" height="24">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -43,26 +43,11 @@
             </div>
         </div>
     </nav>
-    <style>
-    h1{
-    margin-top: 10px;
-    width: 500px;
-    border-radius: 5px;
-    margin-left: 36%;
-    background-color: white;
-    }
-</style>
+
     <h1>Reservaciones</h1>
     <button class='btn btn-success open-modal' id="a2" data-bs-toggle='modal' data-bs-target='#registroModal'>Reservar</button></td>
 
     <!-- Modal para agregar-->
-    <style>
-        .modal-content {
-    background-image: url(img/fondo5.jpg);
-    border: none;
-    border-radius: 10px;
-    }
-    </style>
     <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -179,8 +164,8 @@
                         <td>$row[nro_habitacion]</td>
                         <td>$row[tipo_hospedaje]</td>
                         <td>$row[precio]</td>
-                        <td><button class='btn btn-outline-warning edit-record' data-id='$row[id]' data-nombre='$row[name]' data-apellido='$row[lastname]' data-ubicacion='$row[ubicacion]' data-entrada='$row[entrada]' data-salida='$row[salida]' data-huespedes='$row[huespedes]' data-habitaciones='$row[habitaciones]' data-nro_habitacion='$row[nro_habitacion]' data-tipo_hospedaje='$row[tipo_hospedaje]' data-precio='$row[precio]' data-bs-toggle='modal' data-bs-target='#editarModal'><img src='icons/pencil-solid.svg'></button></td>
-                        <td><button class='btn btn-outline-danger delete-record' data-id='$row[id]' data-bs-toggle='modal' data-bs-target='#eliminarModal'><img src='icons/trash-solid.svg'></button></td>
+                        <td><button class='btn btn-warning edit-record' data-id='$row[id]' data-nombre='$row[name]' data-apellido='$row[lastname]' data-ubicacion='$row[ubicacion]' data-entrada='$row[entrada]' data-salida='$row[salida]' data-huespedes='$row[huespedes]' data-habitaciones='$row[habitaciones]' data-nro_habitacion='$row[nro_habitacion]' data-tipo_hospedaje='$row[tipo_hospedaje]' data-precio='$row[precio]' data-bs-toggle='modal' data-bs-target='#editarModal'><img src='icons/pencil-solid.svg'></button></td>
+                        <td><button class='btn btn-danger delete-record' data-id='$row[id]' data-bs-toggle='modal' data-bs-target='#eliminarModal'><img src='icons/trash-solid.svg'></button></td>
                     </tr>
                     ";
             }
@@ -253,9 +238,9 @@
                         </div><br>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <div class="p-2">
-                            <button type="submit" class="btn btn-outline-success">Guardar Cambios</button>
+                            <button type="submit" class="btn btn-success">Guardar Cambios</button>
                         </div>
                     </div>
                 </form>
@@ -279,9 +264,9 @@
                         <input type="hidden" name="delete_id" id="delete_id">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <div class="p-2">
-                            <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
                         </div>
                     </div>
                 </form>
@@ -296,7 +281,7 @@
                 e.preventDefault();
                 $.ajax({
                     type: 'POST',
-                    url: 'respuesta_ajax.php',
+                    url: 'r_index.php',
                     data: $(this).serialize(),
                     success: function(response) {
                         $('#registroModal').modal('hide');
@@ -336,7 +321,7 @@
                 e.preventDefault();
                 $.ajax({
                     type: 'POST',
-                    url: 'respuesta_ajax.php',
+                    url: 'r_index.php',
                     data: $(this).serialize(),
                     success: function(response) {
                         $('#editarModal').modal('hide');
@@ -355,7 +340,7 @@
                 e.preventDefault();
                 $.ajax({
                     type: 'POST',
-                    url: 'respuesta_ajax.php',
+                    url: 'r_index.php',
                     data: $(this).serialize(),
                     success: function(response) {
                         $('#eliminarModal').modal('hide');
