@@ -12,11 +12,20 @@
     <script src="funciones.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-
+<style>
+    body{
+    background-image: url(img/fondo9.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    }
+</style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <img src="https://i.pinimg.com/736x/ab/fd/b5/abfdb5401c83ab54941bc454a04652e6.jpg" alt="" id="img2" width="30" height="24">
+            <img src="https://img.freepik.com/vector-premium/plantilla-logo-dorado-hotel_23-2147492939.jpg" alt="" id="img2" width="30" height="24">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -35,10 +44,26 @@
             </div>
         </div>
     </nav>
-
+    <style>
+    h1{
+    margin-top: 10px;
+    width: 500px;
+    border-radius: 5px;
+    margin-left: 36%;
+    background-color: white;
+    }
+</style>
     <h1>Clientes</h1>
     <button class='btn btn-success open-modal' id="a2" data-bs-toggle='modal' data-bs-target='#registroModal' onclick="deleteModal()" >Agregar Nuevo</button></td>
     <!--Inicio Modal-->
+    <style>
+        .modal-content {
+    background-image: url(img/fondo5.jpg);
+    border: none;
+    border-radius: 10px;
+    }
+    </style>
+    </style>
     <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
