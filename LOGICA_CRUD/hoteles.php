@@ -38,11 +38,26 @@
             </div>
         </div>
     </nav>
-
+    <style>
+    h1{
+    margin-top: 10px;
+    width: 500px;
+    border-radius: 5px;
+    margin-left: 36%;
+    background-color: white;
+    }
+</style>
     <h1>Hoteles</h1>
     <button class='btn btn-success open-modal' id="a2" data-bs-toggle='modal' data-bs-target='#registroModal'>Agregar Hotel</button></td>
 
     <!-- Modal para agregar-->
+    <style>
+        .modal-content {
+    background-image: url(img/fondo5.jpg);
+    border: none;
+    border-radius: 10px;
+    }
+    </style>
     <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -202,7 +217,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#myForm').submit(function(e) {
+            $('#myForm').submit( function(e) {
                 e.preventDefault();
                 $.ajax({
                     type: 'POST',

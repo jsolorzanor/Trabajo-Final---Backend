@@ -42,16 +42,31 @@
             </div>
         </div>
     </nav>
-
+    <style>
+    h1{
+    margin-top: 10px;
+    width: 500px;
+    border-radius: 5px;
+    margin-left: 36%;
+    background-color: white;
+    }
+</style>
     <h1>Clientes</h1>
     <button class='btn btn-success open-modal' id="a2" data-bs-toggle='modal' data-bs-target='#registroModal'>Agregar Cliente</button></td>
 
     <!-- Modal para agregar-->
+    <style>
+        .modal-content {
+    background-image: url(img/fondo5.jpg);
+    border: none;
+    border-radius: 10px;
+    }
+    </style>
     <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Nueva Residencia</h5>
+                    <h5 class="modal-title">Agregar clientes</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="myForm">
@@ -145,7 +160,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Editar datos de Hotel</h5>
+                    <h5 class="modal-title">Editar datos de cliente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editForm">
@@ -164,7 +179,7 @@
                         </div><br>
                         <div class="row">
                             <div class="col">
-                                <input type="text" name="edit_correo" id="edit_correo" class="form-control" placeholder="Correo electronico" required>
+                                <input type="email" name="edit_correo" id="edit_correo" class="form-control" placeholder="Correo electronico" required>
                             </div>
                         </div><br>
                         <div class="row">
@@ -194,12 +209,12 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Eliminar Reservación</h5>
+                    <h5 class="modal-title">Eliminar cliente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="deleteForm">
                     <div class="modal-body">
-                        <p>¿Está seguro de que desea eliminar esta reservación?</p>
+                        <p>¿Está seguro de que desea eliminar este cliente?</p>
                         <input type="hidden" name="action" id="deleteAction" value="delete">
                         <input type="hidden" name="delete_id" id="delete_id">
                     </div>
