@@ -19,11 +19,11 @@ function show(mensaje, icon) {
 function redirectToPage() {
   window.location.href = "http://localhost:3000/index.php?";
 }
-function redirectToAlumno() {
-  window.location.href = "http://localhost:3000/index_alumno.php";
+function redirectToClientes() {
+  window.location.href = "http://localhost:3000/clientes.php";
 }
-function redirectToEvento() {
-  window.location.href = "http://localhost:3000/index_eventos.php";
+function redirectToHoteles() {
+  window.location.href = "http://localhost:3000/hoteles.php";
 }
 
 $(document).ready(function () {
@@ -33,7 +33,7 @@ $(document).ready(function () {
   });
 });
 
-function deleteRecord() {
+function deleteReservaciones() {
   var deleteId = document.getElementById('deleteId').value;
   var xhr = new XMLHttpRequest();
   xhr.open('POST', 'views/eliminar.php', true);
@@ -49,7 +49,7 @@ function deleteRecord() {
   xhr.send('deleteId=' + encodeURIComponent(deleteId));
 }
 
-function deleteAlumno() {
+function deleteClientes() {
   var deleteId = document.getElementById('deleteId').value;
   var xhr = new XMLHttpRequest();
   xhr.open('POST', 'Alumno/eliminar_alumno.php', true);
@@ -65,7 +65,7 @@ function deleteAlumno() {
   xhr.send('deleteId=' + encodeURIComponent(deleteId));
 }
 
-function deleteEvento() {
+function deleteHoteles() {
   var deleteId = document.getElementById('deleteId').value;
   var xhr = new XMLHttpRequest();
   xhr.open('POST', 'Eventos/eliminar_evento.php', true);

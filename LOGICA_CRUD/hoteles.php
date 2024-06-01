@@ -36,7 +36,7 @@
         </div>
     </nav>
 
-    <h1>Reservaciones</h1>
+    <h1>Hoteles</h1>
     <button class='btn btn-success open-modal' id="a2" data-bs-toggle='modal' data-bs-target='#registroModal' onclick="deleteModal()" >Agregar Nuevo</button></td>
     <!--Inicio Modal-->
     <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -60,47 +60,17 @@
                         </div><br>
                         <div class="row">
                             <div class="col">
-                                <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Apellido" required>
-                            </div>
-                        </div><br>
-                        <div class="row">
-                            <div class="col">
                                 <input type="text" name="ubicacion" id="ubicacion" class="form-control" placeholder="Ubicacion" required>
                             </div>
                         </div><br>
                         <div class="row">
                             <div class="col">
-                                <input type="date" name="entrada" id="entrada" class="form-control" placeholder="Entrada" required>
+                                <input type="text" name="telefono" id="telefono" class="form-control" placeholder="Telefono" required>
                             </div>
                         </div><br>
                         <div class="row">
                             <div class="col">
-                                <input type="date" name="salida" id="salida" class="form-control" placeholder="Salida" required>
-                            </div>
-                        </div><br>
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" name="huespedes" id="huespedes" class="form-control" placeholder="Huespedes" required>
-                            </div>
-                        </div><br>
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" name="habitaciones" id="habitaciones" class="form-control" placeholder="Habitaciones" required>
-                            </div>
-                        </div><br>
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" name="nro_habitacion" id="nro_habitacion" class="form-control" placeholder="Numero de habitaciones" required>
-                            </div>
-                        </div><br>
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" name="tipo_hospedaje" id="tipo_hospedaje" class="form-control" placeholder="Tipo de hopedaje" required>
-                            </div>
-                        </div><br>
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" name="precio" id="precio" class="form-control" placeholder="Precio" required>
+                                <input type="text" name="valoracion" id="valoracion" class="form-control" placeholder="Valoracion" required>
                             </div>
                         </div><br>
                     </div>
@@ -128,15 +98,9 @@
             <tr>
                 <th>Id</th>
                 <th>Nombre</th>
-                <th>Apellido</th>
                 <th>Ubicacion</th>
-                <th>Entrada</th>
-                <th>Salida</th>
-                <th>Huespedes</th>
-                <th>Habitaciones</th>
-                <th>Numero de habitacion</th>
-                <th>Tipo de hospedaje</th>
-                <th>Precio</th>
+                <th>Telefono</th>
+                <th>Valoracion</th>
             </tr>
         </thead>
         <tbody>
@@ -147,15 +111,9 @@
                     <tr>
                         <td>$row[id]</td>
                         <td>$row[name]</td>
-                        <td>$row[lastname]</td>
                         <td>$row[ubicacion]</td>
-                        <td>$row[entrada]</td>
-                        <td>$row[salida]</td>
-                        <td>$row[huespedes]</td>
-                        <td>$row[habitaciones]</td>
-                        <td>$row[nro_habitacion]</td>
-                        <td>$row[tipo_hospedaje]</td>
-                        <td>$row[precio]</td>
+                        <td>$row[telefono]</td>
+                        <td>$row[valoracion]</td>
                         <td><a href='views/editar.php?id=$row[id]' class='btn btn-warning'><img src='icons/pencil-solid.svg'></a></td>
                         <td><button class='btn btn-danger open-modal' data-id=$row[id] data-bs-toggle='modal' data-bs-target='#exampleModal'><img src='icons/trash-solid.svg'></button></td>
                     </tr>
@@ -207,11 +165,11 @@
                 <div class="modal-body">
                     <form enctype="multipart/form-data" method="post">
                         <input type="text" class="form-control" name="deleteId" id="deleteId" disabled>
-                        <button type="submit" class="btn btn-primary" name="save" onclick="deleteRecord()">Guardar cambios</button>
+                        <button type="submit" class="btn btn-primary" name="save" onclick="deleteRecord()">Save changes</button>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <!-- <button type="submit" class="btn btn-primary" name="save">Save changes</button> -->
                 </div>
                 <!-- </form> -->
