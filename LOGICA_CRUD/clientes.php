@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>.: Formulario :.</title>
+    <title>.: Clientes :.</title>
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="js/bootstrap.min.js"></script>
@@ -94,7 +94,7 @@
     <?php
     include 'db/db.php';
 
-    $sql = "SELECT * FROM Reservaciones";
+    $sql = "SELECT * FROM Clientes";
     $result = mysqli_query($db, $sql);
 
     ?>
