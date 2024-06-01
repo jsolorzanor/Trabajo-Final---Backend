@@ -4,13 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>.: Reservaciones :.</title>
+    <title>.: Formulario :.</title>
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="js/bootstrap.min.js"></script>
     <script src="jquery/jquery-3.7.1.min.js"></script>
     <script src="funciones.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -37,19 +36,21 @@
     </nav>
 
     <h1>Reservaciones</h1>
-    <button class='btn btn-success open-modal' id="a2" data-bs-toggle='modal' data-bs-target='#registroModal' onclick="deleteModal()" >Agregar Nuevo</button></td>
-    <!--Inicio Modal-->
+    <button class='btn btn-outline-success open-modal' id="a2" data-bs-toggle='modal' data-bs-target='#registroModal'>Reservar</button></td>
+
+    <!-- Modal para agregar-->
     <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Reservacion</h5>
+                    <h5 class="modal-title">Aqui hara su reservacion</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="myForm">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col">
+                                <input type="hidden" name="action" id="action" value="add">
                                 <input type="text" name="id" id="id" class="form-control" placeholder="Id" required>
                             </div>
                         </div><br>
@@ -95,7 +96,7 @@
                         </div><br>
                         <div class="row">
                             <div class="col">
-                                <input type="text" name="tipo_hospedaje" id="tipo_hospedaje" class="form-control" placeholder="Tipo de hopedaje" required>
+                                <input type="text" name="tipo_hospedaje" id="tipo_hospedaje" class="form-control" placeholder="Tipo de hospedaje" required>
                             </div>
                         </div><br>
                         <div class="row">
@@ -105,9 +106,9 @@
                         </div><br>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <div class="p-2">
-                            <button type="submit" class="btn btn-success boton" data-bs-dismiss="modal">Reservar</button>
+                            <button type="submit" class="btn btn-outline-success boton">Reservar</button>
                         </div>
                     </div>
                 </form>
@@ -117,11 +118,9 @@
     <!--Fin Modal-->
 
     <?php
-    include 'db/db.php';
-
+    include "db/db.php";
     $sql = "SELECT * FROM Reservaciones";
     $result = mysqli_query($db, $sql);
-
     ?>
     <table id="dataTable" border="1">
         <thead>
@@ -137,12 +136,12 @@
                 <th>Numero de habitacion</th>
                 <th>Tipo de hospedaje</th>
                 <th>Precio</th>
+                <th colspan="2">Accion</th>
             </tr>
         </thead>
         <tbody>
             <?php
             while ($row = mysqli_fetch_assoc($result)) {
-                #<td><a href='views/eliminar.php'><img src='icons/trash-solid.svg'></a></td>
                 echo "
                     <tr>
                         <td>$row[id]</td>
@@ -156,69 +155,194 @@
                         <td>$row[nro_habitacion]</td>
                         <td>$row[tipo_hospedaje]</td>
                         <td>$row[precio]</td>
-                        <td><a href='views/editar.php?id=$row[id]' class='btn btn-warning'><img src='icons/pencil-solid.svg'></a></td>
-                        <td><button class='btn btn-danger open-modal' data-id=$row[id] data-bs-toggle='modal' data-bs-target='#exampleModal'><img src='icons/trash-solid.svg'></button></td>
+                        <td><button class='btn btn-outline-warning edit-record' data-id='$row[id]' data-nombre='$row[name]' data-apellido='$row[lastname]' data-ubicacion='$row[ubicacion]' data-entrada='$row[entrada]' data-salida='$row[salida]' data-huespedes='$row[huespedes]' data-habitaciones='$row[habitaciones]' data-nro_habitacion='$row[nro_habitacion]' data-tipo_hospedaje='$row[tipo_hospedaje]' data-precio='$row[precio]' data-bs-toggle='modal' data-bs-target='#editarModal'><img src='icons/pencil-solid.svg'></button></td>
+                        <td><button class='btn btn-outline-danger delete-record' data-id='$row[id]' data-bs-toggle='modal' data-bs-target='#eliminarModal'><img src='icons/trash-solid.svg'></button></td>
                     </tr>
                     ";
             }
             ?>
         </tbody>
     </table>
-    <div id="response"><
-    <!--Consulta ajax-->
+    <div id="response"></div>
+
+    <!--Modal para editar-->
+    <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Reservación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editForm">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <input type="hidden" name="action" id="editAction" value="edit">
+                                <input type="hidden" name="edit_id" id="edit_id">
+                                <input type="text" name="edit_name" id="edit_name" class="form-control" placeholder="Nombre" required>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="edit_lastname" id="edit_lastname" class="form-control" placeholder="Apellido" required>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="edit_ubicacion" id="edit_ubicacion" class="form-control" placeholder="Ubicacion" required>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col">
+                                <input type="date" name="edit_entrada" id="edit_entrada" class="form-control" placeholder="Entrada" required>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col">
+                                <input type="date" name="edit_salida" id="edit_salida" class="form-control" placeholder="Salida" required>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="edit_huespedes" id="edit_huespedes" class="form-control" placeholder="Huespedes" required>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="edit_habitaciones" id="edit_habitaciones" class="form-control" placeholder="Habitaciones" required>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="edit_nro_habitacion" id="edit_nro_habitacion" class="form-control" placeholder="Numero de habitaciones" required>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="edit_tipo_hospedaje" id="edit_tipo_hospedaje" class="form-control" placeholder="Tipo de hospedaje" required>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="edit_precio" id="edit_precio" class="form-control" placeholder="Precio" required>
+                            </div>
+                        </div><br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <div class="p-2">
+                            <button type="submit" class="btn btn-outline-success">Guardar Cambios</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--Fin Modal-->
+
+    <!--Modal para eliminar-->
+    <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Eliminar Reservación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="deleteForm">
+                    <div class="modal-body">
+                        <p>¿Está seguro de que desea eliminar esta reservación?</p>
+                        <input type="hidden" name="action" id="deleteAction" value="delete">
+                        <input type="hidden" name="delete_id" id="delete_id">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <div class="p-2">
+                            <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--Fin Modal-->
+
     <script>
         $(document).ready(function() {
-            $('#myForm').on('submit', function(event) {
-                event.preventDefault(); // Evitar que el formulario se envíe de la manera tradicional
-
+            $('#myForm').submit(function(e) {
+                e.preventDefault();
                 $.ajax({
-                    url: 'respuesta_ajax.php',
                     type: 'POST',
+                    url: 'respuesta_ajax.php',
                     data: $(this).serialize(),
-                    dataType: 'json',
                     success: function(response) {
-                        if (response.status === 'success') {
-                            $('#dataTable tbody').append(
-                                '<tr><td>' + response.data.id + '</td><td>' + response.data.name + '</td><td>' + response.data.lastname + '</td><td>' + response.data.job + '</td><td>' + response.data.enable + '</td>'+'<td><a href="views/editar.php?id=$row[id]" class="btn btn-warning"><img src="icons/pencil-solid.svg"></a></td>'+'<td><button class="btn btn-danger open-modal" data-id=$row[id] data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="icons/trash-solid.svg"></button></td></tr>');
-                            $('#response').html('<p>' + response.message + '</p>');
-                        } else {
-                            $('#response').html('<p>' + response.message + '</p>');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error:', error);
-                        $('#response').html('Ocurrió un error al enviar el formulario.');
+                        $('#registroModal').modal('hide');
+                        $('#response').html(response);
+                        location.reload();
+                    }
+                });
+            });
+
+            $('.edit-record').click(function() {
+                var id = $(this).data('id');
+                var name = $(this).data('nombre');
+                var lastname = $(this).data('apellido');
+                var ubicacion = $(this).data('ubicacion');
+                var entrada = $(this).data('entrada');
+                var salida = $(this).data('salida');
+                var huespedes = $(this).data('huespedes');
+                var habitaciones = $(this).data('habitaciones');
+                var nro_habitacion = $(this).data('nro_habitacion');
+                var tipo_hospedaje = $(this).data('tipo_hospedaje');
+                var precio = $(this).data('precio');
+
+                $('#edit_id').val(id);
+                $('#edit_name').val(name);
+                $('#edit_lastname').val(lastname);
+                $('#edit_ubicacion').val(ubicacion);
+                $('#edit_entrada').val(entrada);
+                $('#edit_salida').val(salida);
+                $('#edit_huespedes').val(huespedes);
+                $('#edit_habitaciones').val(habitaciones);
+                $('#edit_nro_habitacion').val(nro_habitacion);
+                $('#edit_tipo_hospedaje').val(tipo_hospedaje);
+                $('#edit_precio').val(precio);
+            });
+
+            $('#editForm').submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: 'respuesta_ajax.php',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#editarModal').modal('hide');
+                        $('#response').html(response);
+                        location.reload();
+                    }
+                });
+            });
+
+            $('.delete-record').click(function() {
+                var id = $(this).data('id');
+                $('#delete_id').val(id);
+            });
+
+            $('#deleteForm').submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: 'respuesta_ajax.php',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#eliminarModal').modal('hide');
+                        $('#response').html(response);
+                        location.reload();
                     }
                 });
             });
         });
     </script>
-    <!--Fin ajax-->
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- <form method="post"> -->
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">¿Desear eliminar?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form enctype="multipart/form-data" method="post">
-                        <input type="text" class="form-control" name="deleteId" id="deleteId" disabled>
-                        <button type="submit" class="btn btn-primary" name="save" onclick="deleteRecord()">Guardar cambios</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <!-- <button type="submit" class="btn btn-primary" name="save">Save changes</button> -->
-                </div>
-                <!-- </form> -->
-            </div>
-        </div>
-    </div>
-    <!-- Modal -->
 </body>
 
 </html>
